@@ -14,38 +14,6 @@ struct ListNode
 class Solution
 {
 public:
-    ListNode *rotateRight(ListNode *head, int k)
-    {
-        if (head == NULL || head->next == NULL || k <= 0)
-        {
-            return head;
-        }
-
-        int len = 0;
-        ListNode *node = head, *prev = NULL;
-        while (node != NULL)
-        {
-            ++len;
-            prev = node;
-            node = node->next;
-        }
-
-        k = k % len;
-
-        int off = len - k;
-        ListNode *rotateNode = head;
-        while (off-- > 0)
-        {
-            rotateNode = rotateNode->next;
-        }
-
-        prev->next = head;
-        node = rotateNode->next;
-        rotateNode->next = NULL;
-
-        return node;
-    }
-
     ListNode *sortList(ListNode *head)
     {
         if (head == NULL || head->next == NULL)
@@ -125,7 +93,7 @@ public:
 
 int main()
 {
-    int val[] = {1, 2};
+    int val[] = {4, 3, 2, 1};
     int len = sizeof(val) / sizeof(val[0]);
     ListNode head(0), *newnode;
     for (int i = 0; i < len; ++i)
@@ -137,6 +105,6 @@ int main()
     }
 
     Solution s;
-    s.print(s.rotateRight(head.next, 3));
+    s.print(s.sortList(head.next));
     return 0;
 }

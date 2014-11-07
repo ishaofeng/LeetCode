@@ -1,0 +1,12 @@
+#! /bin/bash
+
+if [[ "$#" != "1" ]]
+then
+    echo "参数错误: finish name"
+    exit
+fi
+
+mkdir ../$1
+cp main.cpp ../$1/$1.cpp
+
+

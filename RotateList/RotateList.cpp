@@ -31,10 +31,15 @@ public:
         }
 
         k = k % len;
+        if (k == 0)
+        {
+            return head;
+        }
+
 
         int off = len - k;
         ListNode *rotateNode = head;
-        while (off-- > 0)
+        while (--off > 0)
         {
             rotateNode = rotateNode->next;
         }
@@ -125,7 +130,7 @@ public:
 
 int main()
 {
-    int val[] = {1, 2};
+    int val[] = {2, 1};
     int len = sizeof(val) / sizeof(val[0]);
     ListNode head(0), *newnode;
     for (int i = 0; i < len; ++i)
@@ -137,6 +142,6 @@ int main()
     }
 
     Solution s;
-    s.print(s.rotateRight(head.next, 3));
+    s.print(s.rotateRight(head.next, 1));
     return 0;
 }
