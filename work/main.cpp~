@@ -1,142 +1,57 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <set>
+#include <cctype>
+#include <cmath>
 
 using namespace std;
 
-struct ListNode
-{
-    int val;
-    ListNode *next;
-    ListNode(int x) : val(x), next(NULL) {}
-};
 
 class Solution
 {
 public:
-    ListNode *rotateRight(ListNode *head, int k)
+    string convert(string text, int nRows)
     {
-        if (head == NULL || head->next == NULL || k <= 0)
+        if (nRows <= 1)
         {
-            return head;
+            return text;
         }
-
-        int len = 0;
-        ListNode *node = head, *prev = NULL;
-        while (node != NULL)
+        string result;
+        int sec = nRows * 2 - 2;
+        for (int i = 0; i < nRows; ++i)
         {
-            ++len;
-            prev = node;
-            node = node->next;
-        }
-
-        k = k % len;
-
-        int off = len - k;
-        ListNode *rotateNode = head;
-        while (off-- > 0)
-        {
-            rotateNode = rotateNode->next;
-        }
-
-        prev->next = head;
-        node = rotateNode->next;
-        rotateNode->next = NULL;
-
-        return node;
-    }
-
-    ListNode *sortList(ListNode *head)
-    {
-        if (head == NULL || head->next == NULL)
-        {
-            return head;
-        }
-
-        ListNode *slow = head, *fast = head;
-        while (fast->next != NULL)
-        {
-            fast = fast->next;
-            if (fast->next != NULL)
+            for (int j = i; j < text.size();)
             {
-                slow = slow->next;
-                fast = fast->next;
+                result.push_back(text[j]);
+
+
+                int sp = j / sec;
+                int mod = j % sec;
+
+                if (mod < (nRows-1) && mod > 0)
+                {
+                    sp = (sp + 1) * sec - mod;
+                    if (sp < text.size())
+                    {
+                        result.push_back(text[sp]);
+                    }
+                }
+
+                j += sec;
             }
         }
 
-
-        ListNode *l2 = slow->next;
-        slow->next = NULL;
-        ListNode *l1 = head;
-
-
-        l1 = sortList(l1);
-        l2 = sortList(l2);
-
-       return  mergeList(l1, l2);
-    }
-
-    ListNode *mergeList(ListNode *l1, ListNode *l2)
-    {
-        ListNode head(0);
-        ListNode *current = &head;
-
-        while (l1 != NULL && l2 != NULL)
-        {
-            if (l1->val > l2->val)
-            {
-                current->next = l2;
-                l2 = l2->next;
-            }
-            else
-            {
-                current->next = l1;
-                l1 = l1->next;
-            }
-            current = current->next;
-        }
-
-        if (l1 == NULL)
-        {
-            current->next = l2;
-        }
-        else
-        {
-            current->next = l1;
-        }
-
-        return head.next;
-    }
-
-    void print(ListNode *head)
-    {
-        if (head != NULL)
-        {
-            cout << head->val << " ";
-            print(head->next);
-        }
-        else
-        {
-            cout << endl;
-        }
+        return result;
     }
 };
 
-
 int main()
 {
-    int val[] = {1, 2};
-    int len = sizeof(val) / sizeof(val[0]);
-    ListNode head(0), *newnode;
-    for (int i = 0; i < len; ++i)
-    {
-        newnode = new ListNode(val[i]);
-        newnode->next = head.next;
-
-        head.next = newnode;
-    }
-
+    int data[] = { 2, 3, 4, 5, 6, 1};
+    vector<int> v(data, data + sizeof(data) / sizeof(data[0]));
     Solution s;
-    s.print(s.rotateRight(head.next, 3));
-    return 0;
+    string ss = "PAYPALISHIRING";
+    string result = s.convert(ss, 4);
+    cout << "#" << result << "#" << endl;
 }
