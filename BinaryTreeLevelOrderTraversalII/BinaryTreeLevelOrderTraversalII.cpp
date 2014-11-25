@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <stack>
+#include <assert>
 using namespace std;
 
 struct TreeNode {
@@ -10,10 +10,9 @@ struct TreeNode {
      TreeNode *right;
      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
-
 class Solution {
 public:
-    int height(TreeLinkNode *root)
+    int height(TreeNode *root)
     {
         if (root == NULL)
         {
@@ -27,7 +26,7 @@ public:
         return max(height(root->left), height(root->right)) + 1;
     }
     
-    void connectHelp(TreeLinkNode *root, int level, int countlevel, TreeLinkNode *&prev)
+    void levelOrderHelp(TreeNode *root, int level, int countlevel, vector<int> &line)
     {
         if (root == NULL)
         {
@@ -35,28 +34,28 @@ public:
         }
         if (level == countlevel)
         {
-            if (prev != NULL)
-            {
-                prev->next = root;
-            }
-            prev = root;
+            line.push_back(root->val);
         }
         else
         {
-            connectHelp(root->left, level, countlevel + 1, prev);
-            connectHelp(root->right, level, countlevel + 1, prev);
+            levelOrderHelp(root->left, level, countlevel + 1, line);
+            levelOrderHelp(root->right, level, countlevel + 1, line);
         }
     }
     
-    void connect(TreeLinkNode *root) {
+    vector<vector<int> > levelOrderBottom(TreeNode *root) {
+        vector<vector<int> > result;
         if (root != NULL)
         {
             int h = height(root);
-            for (int i = 0; i < h; ++i)
+            for (int i = h - 1; i >= 0; --i)
             {
-                TreeLinkNode *prev = NULL;
-                connectHelp(root, i, 0, prev);
+                vector<int> line;
+                levelOrderHelp(root, i, 0, line);
+                result.push_back(line);
             }
         }
+        
+        return result;
     }
 };

@@ -13,18 +13,16 @@ struct TreeNode {
 
 class Solution {
 public:
-    void recoverTree(TreeNode *root) {
+    bool isValidBST(TreeNode *root) {
         if (root == NULL)
         {
-            return ;
+            return true;
         }
         
         stack<TreeNode *> s;
         int max = numeric_limits<int>::lowest();
         TreeNode *cur = root, *prev = NULL;
         bool bDone = false;
-        
-        vector<pair<TreeNode*, TreeNode *> > infos;
         while (!bDone)
         {
             if (cur != NULL)
@@ -41,7 +39,7 @@ public:
                     
                     if (prev != NULL && prev->val >= cur->val)
                     {
-                        infos.push_back(make_pair(prev, cur));
+                        return false;
                     }
                     prev = cur;
                     
@@ -53,14 +51,6 @@ public:
                 }
             }
         }
-        
-        if (infos.size() == 1)
-        {
-            swap(infos[0].first->val, infos[0].second->val);
-        }
-        else if (infos.size() == 2)
-        {
-            swap(infos[0].first->val, infos[1].second->val);
-        }
+        return true;
     }
 };
