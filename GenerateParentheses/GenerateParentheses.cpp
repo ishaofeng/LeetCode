@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 using namespace std;
+
 class Solution {
 public:
     void generateHelp(int ln, int rn, string &s, vector<string> &result)
